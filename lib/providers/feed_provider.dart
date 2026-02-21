@@ -46,7 +46,7 @@ class FeedNotifier extends Notifier<FeedState> {
     try {
       final page = await _fetchPage();
       state = FeedState(
-        posts: page.posts,
+        posts: _deduplicatePosts(page.posts),
         cursor: page.cursor,
       );
     } catch (e) {
@@ -61,8 +61,11 @@ class FeedNotifier extends Notifier<FeedState> {
     state = state.copyWith(isLoadingMore: true, error: null);
     try {
       final page = await _fetchPage(cursor: state.cursor);
+      final existingUris = {for (final p in state.posts) p.uri};
+      final newPosts =
+          page.posts.where((p) => !existingUris.contains(p.uri)).toList();
       state = state.copyWith(
-        posts: [...state.posts, ...page.posts],
+        posts: [...state.posts, ...newPosts],
         cursor: page.cursor,
         isLoadingMore: false,
         clearCursor: page.cursor == null,
@@ -103,6 +106,15 @@ class FeedNotifier extends Notifier<FeedState> {
       // Revert on failure.
       _updatePostAt(index, post);
     }
+  }
+
+  /// Remove duplicate posts, keeping the first occurrence (the cached version).
+  List<ImagePost> _deduplicatePosts(List<ImagePost> posts) {
+    final seen = <String>{};
+    return [
+      for (final post in posts)
+        if (seen.add(post.uri)) post,
+    ];
   }
 
   void _updatePostAt(int index, ImagePost post) {
