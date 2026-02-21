@@ -62,7 +62,7 @@ void main() {
       await container.read(feedProvider.notifier).loadFeed();
       expect(container.read(feedProvider).posts.length, 3);
 
-      final page2 = testFeedPage(postCount: 2, cursor: null);
+      final page2 = testFeedPage(postCount: 2, startIndex: 3, cursor: null);
       when(() => mockService.getTimeline(limit: 50, cursor: 'cursor-1'))
           .thenAnswer((_) async => page2);
       await container.read(feedProvider.notifier).loadMore();
@@ -70,6 +70,25 @@ void main() {
       final state = container.read(feedProvider);
       expect(state.posts.length, 5);
       expect(state.hasMore, isFalse);
+    });
+
+    test('loadMore deduplicates overlapping posts', () async {
+      final page1 = testFeedPage(postCount: 3, cursor: 'cursor-1');
+      when(() => mockService.getTimeline(limit: 50))
+          .thenAnswer((_) async => page1);
+      await container.read(feedProvider.notifier).loadFeed();
+
+      // Page 2 starts at index 1, so posts 1 and 2 overlap with page 1.
+      final page2 = testFeedPage(postCount: 3, startIndex: 1, cursor: null);
+      when(() => mockService.getTimeline(limit: 50, cursor: 'cursor-1'))
+          .thenAnswer((_) async => page2);
+      await container.read(feedProvider.notifier).loadMore();
+
+      final state = container.read(feedProvider);
+      // 3 from page 1 + only 1 new (index 3) from page 2; indices 1 & 2 deduped.
+      expect(state.posts.length, 4);
+      expect(state.posts.last.uri,
+          'at://did:plc:abc/app.bsky.feed.post/3');
     });
 
     test('loadMore does nothing when already loading more', () async {

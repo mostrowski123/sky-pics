@@ -56,17 +56,24 @@ ImagePost testImagePost({
 }
 
 /// Creates a test [FeedPage].
+///
+/// Use [startIndex] to generate unique post URIs across pages so that
+/// deduplication doesn't filter them out (mirrors real API behavior).
 FeedPage testFeedPage({
   int postCount = 5,
+  int startIndex = 0,
   String? cursor = 'next-cursor-abc',
 }) {
   return FeedPage(
-    posts: List.generate(postCount, (i) => testImagePost(
-      uri: 'at://did:plc:abc/app.bsky.feed.post/$i',
-      cid: 'bafyrei$i',
-      authorHandle: 'user$i.bsky.social',
-      authorDisplayName: 'User $i',
-    )),
+    posts: List.generate(postCount, (i) {
+      final idx = startIndex + i;
+      return testImagePost(
+        uri: 'at://did:plc:abc/app.bsky.feed.post/$idx',
+        cid: 'bafyrei$idx',
+        authorHandle: 'user$idx.bsky.social',
+        authorDisplayName: 'User $idx',
+      );
+    }),
     cursor: cursor,
   );
 }
