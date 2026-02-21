@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8FAFC" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+    <linearGradient id="primary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0085FF" />
+      <stop offset="100%" stop-color="#005AEE" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0085FF" flood-opacity="0.25"/>
+    </filter>
+    
+    <g id="photo-square-large">
+      <rect width="150" height="150" rx="16" fill="#FFFFFF" />
+      <rect x="8" y="8" width="134" height="134" rx="12" fill="url(#primary)" />
+      <!-- sun -->
+      <circle cx="55" cy="45" r="22" fill="#FFFFFF" opacity="0.8" />
+      <!-- mountains -->
+      <path d="M 8 110 L 50 40 L 80 90 L 110 45 L 142 85 L 142 142 L 8 142 Z" fill="#FFFFFF" opacity="0.4" />
+    </g>
+    
+    <g id="photo-square-small">
+      <rect width="110" height="110" rx="16" fill="#FFFFFF" />
+      <rect x="8" y="8" width="94" height="94" rx="12" fill="url(#primary)" />
+      <!-- mountains -->
+      <path d="M 8 75 L 40 25 L 65 65 L 85 30 L 102 55 L 102 102 L 8 102 Z" fill="#FFFFFF" opacity="0.4" />
+    </g>
+  </defs>
+  
+  <rect width="512" height="512" rx="112" fill="url(#bg)" />
+
+  <g filter="url(#shadow)">
+    <!-- Bottom Left Wing (Square) -->
+    <g transform="translate(190, 320) rotate(-45) translate(-55, -55)">
+      <use href="#photo-square-small" />
+    </g>
+    <!-- Bottom Right Wing (Square) -->
+    <g transform="translate(322, 320) rotate(45) translate(-55, -55)">
+      <use href="#photo-square-small" />
+    </g>
+
+    <!-- Top Left Wing (Square) -->
+    <g transform="translate(170, 190) rotate(-15) translate(-75, -75)">
+      <use href="#photo-square-large" />
+    </g>
+    <!-- Top Right Wing (Square) -->
+    <g transform="translate(342, 190) rotate(15) translate(-75, -75)">
+      <use href="#photo-square-large" />
+    </g>
+  </g>
+</svg>
