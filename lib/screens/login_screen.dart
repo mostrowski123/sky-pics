@@ -52,10 +52,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.image_search, size: 72, color: Colors.blue),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset('assets/icons/icon.png',
+                      width: 80, height: 80),
+                ),
                 const SizedBox(height: 16),
                 Text(
-                  'Bluesky Image Viewer',
+                  'Sky Pics',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 32),

@@ -111,7 +111,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bluesky Images'),
+        title: const Text('Sky Pics'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),

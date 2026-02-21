@@ -16,20 +16,20 @@ void main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
-      child: const BlueskyImageViewerApp(),
+      child: const SkyPicsApp(),
     ),
   );
 }
 
-class BlueskyImageViewerApp extends ConsumerWidget {
-  const BlueskyImageViewerApp({super.key});
+class SkyPicsApp extends ConsumerWidget {
+  const SkyPicsApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authProvider);
 
     return MaterialApp(
-      title: 'Bluesky Image Viewer',
+      title: 'Sky Pics',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorSchemeSeed: Colors.blue,
